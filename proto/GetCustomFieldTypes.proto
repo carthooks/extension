@@ -4,21 +4,21 @@ package service;
 option go_package = "github.com/carthooks/extension/service";
 
 message GetFieldsResponse {
-  repeated FieldType fields = 1;
+  repeated CustomFieldType fields = 1;
 }
 
 //message field to extend system field datatype. such as map, cad file, lbs locatin, etc.
-message FieldType {
+message CustomFieldType {
   string name = 1;
   StorageType type = 2;
   Resource resrouce = 3;
 }
 
 enum StorageType {
-  UNSPECIFIED = 0;
-  STRING = 1;
-  NUMBER = 2;
-  BLOB = 3;
+  STORAGE_UNSPECIFIED = 0;
+  STORAGE_STRING = 1;
+  STORAGE_NUMBER = 2;
+  STORAGE_BLOB = 3;
 }
 
 message Resource {

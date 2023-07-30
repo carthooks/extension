@@ -18,7 +18,7 @@ service CarthooksExtension {
   rpc GetModels(Empty) returns (GetModelsResponse) {}
   rpc GetI18nPack(Empty) returns (GetI18nPackResponse) {}
   rpc GetServices(Empty) returns (GetServicesResponse) {}
-  rpc GetConnecotrs(Empty) returns (GetConnectorsResponse) {}
+  rpc GetConnectors(Empty) returns (GetConnectorsResponse) {}
   rpc GetResource(Empty) returns (GetResourcesResponse) {}
 }
 

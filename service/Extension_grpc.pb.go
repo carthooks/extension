@@ -26,7 +26,7 @@ type CarthooksExtensionClient interface {
 	GetModels(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetModelsResponse, error)
 	GetI18NPack(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetI18NPackResponse, error)
 	GetServices(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetServicesResponse, error)
-	GetConnecotrs(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error)
+	GetConnectors(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error)
 	GetResource(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetResourcesResponse, error)
 }
 
@@ -74,9 +74,9 @@ func (c *carthooksExtensionClient) GetServices(ctx context.Context, in *Empty, o
 	return out, nil
 }
 
-func (c *carthooksExtensionClient) GetConnecotrs(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error) {
+func (c *carthooksExtensionClient) GetConnectors(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error) {
 	out := new(GetConnectorsResponse)
-	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetConnecotrs", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetConnectors", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +100,7 @@ type CarthooksExtensionServer interface {
 	GetModels(context.Context, *Empty) (*GetModelsResponse, error)
 	GetI18NPack(context.Context, *Empty) (*GetI18NPackResponse, error)
 	GetServices(context.Context, *Empty) (*GetServicesResponse, error)
-	GetConnecotrs(context.Context, *Empty) (*GetConnectorsResponse, error)
+	GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error)
 	GetResource(context.Context, *Empty) (*GetResourcesResponse, error)
 	mustEmbedUnimplementedCarthooksExtensionServer()
 }
@@ -121,8 +121,8 @@ func (UnimplementedCarthooksExtensionServer) GetI18NPack(context.Context, *Empty
 func (UnimplementedCarthooksExtensionServer) GetServices(context.Context, *Empty) (*GetServicesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetServices not implemented")
 }
-func (UnimplementedCarthooksExtensionServer) GetConnecotrs(context.Context, *Empty) (*GetConnectorsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetConnecotrs not implemented")
+func (UnimplementedCarthooksExtensionServer) GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetConnectors not implemented")
 }
 func (UnimplementedCarthooksExtensionServer) GetResource(context.Context, *Empty) (*GetResourcesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetResource not implemented")
@@ -212,20 +212,20 @@ func _CarthooksExtension_GetServices_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CarthooksExtension_GetConnecotrs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CarthooksExtension_GetConnectors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CarthooksExtensionServer).GetConnecotrs(ctx, in)
+		return srv.(CarthooksExtensionServer).GetConnectors(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/service.CarthooksExtension/GetConnecotrs",
+		FullMethod: "/service.CarthooksExtension/GetConnectors",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarthooksExtensionServer).GetConnecotrs(ctx, req.(*Empty))
+		return srv.(CarthooksExtensionServer).GetConnectors(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -272,8 +272,8 @@ var CarthooksExtension_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CarthooksExtension_GetServices_Handler,
 		},
 		{
-			MethodName: "GetConnecotrs",
-			Handler:    _CarthooksExtension_GetConnecotrs_Handler,
+			MethodName: "GetConnectors",
+			Handler:    _CarthooksExtension_GetConnectors_Handler,
 		},
 		{
 			MethodName: "GetResource",

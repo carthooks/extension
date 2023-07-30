@@ -6,7 +6,7 @@ option go_package = "github.com/carthooks/extension/service";
 import "common.proto";
 
 message GetModelsResponse{
-    repeated Model Models = 1;
+    repeated Model models = 1;
 }
 
 message Model {
@@ -15,8 +15,46 @@ message Model {
     repeated Field fields = 3;
 }
 
+
 message Field {
-    string type = 1;
-    I18nString name = 2;
-    bool required = 3;
+    FieldType type = 1;
+    int32 field_id = 2;
+    I18nString name = 3;
+    bool required = 4;
+    bool unique = 5;
+    bool editable = 6;
+    bool visible = 7;
+    bool show_label = 8;
+    I18nString description = 9;
+    string key = 10;
+    uint32 number_decimal = 11;
+    repeated string options = 12;
+    repeated Field subform_fields = 13;
+}
+
+enum FieldType {
+    TYPE_UNSPECIFIED = 0 ;
+    TEXT = 1 ;
+    TEXTAREA = 2 ;
+    NUMBER = 3 ;
+    DATETIME = 4 ;
+    RADIO = 5 ;
+    CHECKBOX = 6 ;
+    SELECT = 7 ;
+    SELECTS = 8 ;
+    ADDRESS = 9 ;
+    LOCATION = 10 ;
+    IMAGE = 11 ;
+    FILE = 12 ;
+    SUBFORM = 13 ;
+    RELATION = 14 ;
+    RELATIONDATA = 15 ;
+    SIGNATURE = 16 ;
+    SERIALNUMBER = 17 ;
+    MOBILE = 18 ;
+    OCR = 19 ;
+    MEMBER = 21 ;
+    MEMBERS = 22 ;
+    DEPARTMENT = 23 ;
+    DEPARTMENTS = 24 ;
 }

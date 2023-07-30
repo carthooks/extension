@@ -8,5 +8,5 @@ message GetConnectorsResponse{
 }
 
 message Connector{
-    
+    string name = 1;
 }
