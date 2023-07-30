@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "github.com/carthooks/extension/service";
+option java_multiple_files = true;
+option java_package = "proto.extension.carthooks.com";
+option java_outer_classname = "HelloWorldProto";
+
+package service;
+
+import "GetCustomFieldTypes.proto";
+import "GetModels.proto";
+import "GetServices.proto";
+import "GetConnectors.proto";
+import "GetResource.proto";
+
+service CarthooksExtension {
+  rpc GetCustomFieldTypes(Empty) returns (GetFieldsResponse) {}
+  rpc GetModels(Empty) returns (GetModelsResponse) {}
+  rpc GetI18nPack(Empty) returns (GetI18nPackResponse) {}
+  rpc GetServices(Empty) returns (GetServicesResponse) {}
+  rpc GetConnecotrs(Empty) returns (GetConnectorsResponse) {}
+  rpc GetResource(Empty) returns (GetResourcesResponse) {}
+}
+
+message Empty {}
+
+message GetI18nPackResponse {
+  repeated I18nPack i18n_packs = 1;
+}
+
+message I18nPack {
+  string locale = 1;
+  Resource resource = 2;
+}
+
+// service ReadService {
+//   // read() return bytes
+//   rpc Read() returns (stream bytes) {}
+// }

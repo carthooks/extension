@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package service;
+option go_package = "github.com/carthooks/extension/service";
+
+import "common.proto";
+
+message GetModelsResponse{
+    repeated Model Models = 1;
+}
+
+message Model {
+    string name = 1;
+    string uuid = 2;
+    repeated Field fields = 3;
+}
+
+message Field {
+    string type = 1;
+    I18nString name = 2;
+    bool required = 3;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package service;
+option go_package = "github.com/carthooks/extension/service";
+
+message GetConnectorsResponse{
+    repeated Connector connectors = 1;
+}
+
+message Connector{
+    
+}

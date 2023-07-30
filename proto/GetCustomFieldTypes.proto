@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package service;
+option go_package = "github.com/carthooks/extension/service";
+
+message GetFieldsResponse {
+  repeated FieldType fields = 1;
+}
+
+//message field to extend system field datatype. such as map, cad file, lbs locatin, etc.
+message FieldType {
+  string name = 1;
+  StorageType type = 2;
+  Resource resrouce = 3;
+}
+
+enum StorageType {
+  UNSPECIFIED = 0;
+  STRING = 1;
+  NUMBER = 2;
+  BLOB = 3;
+}
+
+message Resource {
+  int32 lastModified = 1;
+  CompressType compressed = 2;
+  string path = 3;  
+}
+
+enum CompressType {
+  NONE = 0;
+  GZIP = 1;
+  BZIP2 = 2;
+  ZIP = 3;
+}

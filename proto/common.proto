@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package service;
+option go_package = "github.com/carthooks/extension/service";
+
+message I18nString {
+    string key = 1;
+    string default = 2;
+}
