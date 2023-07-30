@@ -2,8 +2,8 @@ syntax = "proto3";
 
 option go_package = "github.com/carthooks/extension/service";
 option java_multiple_files = true;
-option java_package = "proto.extension.carthooks.com";
-option java_outer_classname = "HelloWorldProto";
+option java_package = "service.extension.carthooks.com";
+option java_outer_classname = "CarthooksExtension";
 
 package service;
 
