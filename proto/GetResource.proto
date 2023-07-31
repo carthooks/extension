@@ -4,5 +4,22 @@ package service;
 option go_package = "github.com/carthooks/extension/service";
 
 message GetResourcesResponse {
+    oneof body {
+        FileResponse file = 1;
+        DirectoryResponse directory = 2;
+    }
 }
 
+message GetResourceRequest {
+    string path = 1;
+}
+
+message DirectoryResponse {
+    repeated string files = 1;
+    repeated string directories = 2;
+}
+
+message FileResponse {
+    int32 content_length = 1;
+    bytes body = 2;
+}

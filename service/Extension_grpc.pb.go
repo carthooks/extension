@@ -27,7 +27,7 @@ type CarthooksExtensionClient interface {
 	GetI18NPack(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetI18NPackResponse, error)
 	GetServices(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetServicesResponse, error)
 	GetConnectors(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error)
-	GetResource(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetResourcesResponse, error)
+	GetResource(ctx context.Context, in *GetResourceRequest, opts ...grpc.CallOption) (*GetResourcesResponse, error)
 }
 
 type carthooksExtensionClient struct {
@@ -83,7 +83,7 @@ func (c *carthooksExtensionClient) GetConnectors(ctx context.Context, in *Empty,
 	return out, nil
 }
 
-func (c *carthooksExtensionClient) GetResource(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetResourcesResponse, error) {
+func (c *carthooksExtensionClient) GetResource(ctx context.Context, in *GetResourceRequest, opts ...grpc.CallOption) (*GetResourcesResponse, error) {
 	out := new(GetResourcesResponse)
 	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetResource", in, out, opts...)
 	if err != nil {
@@ -101,7 +101,7 @@ type CarthooksExtensionServer interface {
 	GetI18NPack(context.Context, *Empty) (*GetI18NPackResponse, error)
 	GetServices(context.Context, *Empty) (*GetServicesResponse, error)
 	GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error)
-	GetResource(context.Context, *Empty) (*GetResourcesResponse, error)
+	GetResource(context.Context, *GetResourceRequest) (*GetResourcesResponse, error)
 	mustEmbedUnimplementedCarthooksExtensionServer()
 }
 
@@ -124,7 +124,7 @@ func (UnimplementedCarthooksExtensionServer) GetServices(context.Context, *Empty
 func (UnimplementedCarthooksExtensionServer) GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConnectors not implemented")
 }
-func (UnimplementedCarthooksExtensionServer) GetResource(context.Context, *Empty) (*GetResourcesResponse, error) {
+func (UnimplementedCarthooksExtensionServer) GetResource(context.Context, *GetResourceRequest) (*GetResourcesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetResource not implemented")
 }
 func (UnimplementedCarthooksExtensionServer) mustEmbedUnimplementedCarthooksExtensionServer() {}
@@ -231,7 +231,7 @@ func _CarthooksExtension_GetConnectors_Handler(srv interface{}, ctx context.Cont
 }
 
 func _CarthooksExtension_GetResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(GetResourceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -243,7 +243,7 @@ func _CarthooksExtension_GetResource_Handler(srv interface{}, ctx context.Contex
 		FullMethod: "/service.CarthooksExtension/GetResource",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarthooksExtensionServer).GetResource(ctx, req.(*Empty))
+		return srv.(CarthooksExtensionServer).GetResource(ctx, req.(*GetResourceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

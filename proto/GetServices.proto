@@ -13,9 +13,6 @@ message Service {
     string uuid = 1;
     I18nString name = 2;
     I18nString description = 3;
-    ServiceType type = 4;
-}
-
-enum ServiceType{
-    SERVICE_TYPE_MODEL = 0;
+    string input_model_uuid = 4;
+    string output_model_uuid = 5;
 }
