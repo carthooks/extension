@@ -18,9 +18,9 @@ type Server struct {
 	publicDir string
 }
 
-func (s *Server) GetResourcesGetResource(c context.Context, r *pb.GetResourceRequest) (rsp *pb.GetResourcesResponse, err error) {
-	//	*GetResourcesResponse_File
-	//	*GetResourcesResponse_Directory
+func (s Server) GetAssets(c context.Context, r *pb.GetAssetsRequest) (rsp *pb.GetAssetsResponse, err error) {
+	//	*GetAssetsResponse_File
+	//	*GetAssetsResponse_Directory
 	fpath := filepath.Join(s.publicDir, r.GetPath())
 
 	file, err := os.Open(fpath)
@@ -33,12 +33,12 @@ func (s *Server) GetResourcesGetResource(c context.Context, r *pb.GetResourceReq
 	}
 
 	if fileInfo.IsDir() {
-		return s.DirResource(file)
+		return s.DirAssets(file)
 	}
-	return s.FileResource(file)
+	return s.FileAssets(file)
 }
 
-func (s *Server) DirResource(f *os.File) (rsp *pb.GetResourcesResponse, err error) {
+func (s *Server) DirAssets(f *os.File) (rsp *pb.GetAssetsResponse, err error) {
 	dirctory := &pb.DirectoryResponse{
 		Files:       []string{},
 		Directories: []string{},
@@ -57,22 +57,22 @@ func (s *Server) DirResource(f *os.File) (rsp *pb.GetResourcesResponse, err erro
 		}
 	}
 
-	return &pb.GetResourcesResponse{
-		Body: &pb.GetResourcesResponse_Directory{
+	return &pb.GetAssetsResponse{
+		Body: &pb.GetAssetsResponse_Directory{
 			Directory: dirctory,
 		},
 	}, nil
 }
 
-func (s *Server) FileResource(f *os.File) (rsp *pb.GetResourcesResponse, err error) {
+func (s *Server) FileAssets(f *os.File) (rsp *pb.GetAssetsResponse, err error) {
 	buf := bytes.NewBuffer([]byte{})
 	_, err = buf.ReadFrom(f)
 	if err != nil {
 		return nil, err
 	}
 
-	return &pb.GetResourcesResponse{
-		Body: &pb.GetResourcesResponse_File{
+	return &pb.GetAssetsResponse{
+		Body: &pb.GetAssetsResponse_File{
 			File: &pb.FileResponse{
 				Body: buf.Bytes(),
 			},

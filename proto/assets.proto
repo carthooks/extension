@@ -3,14 +3,14 @@ syntax = "proto3";
 package service;
 option go_package = "github.com/carthooks/extension/service";
 
-message GetResourcesResponse {
+message GetAssetsResponse {
     oneof body {
         FileResponse file = 1;
         DirectoryResponse directory = 2;
     }
 }
 
-message GetResourceRequest {
+message GetAssetsRequest {
     string path = 1;
 }
 
@@ -22,4 +22,8 @@ message DirectoryResponse {
 message FileResponse {
     int32 content_length = 1;
     bytes body = 2;
+}
+
+message Assets {
+    string path = 1;
 }

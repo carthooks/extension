@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 package service;
+import "assets.proto";
+
 option go_package = "github.com/carthooks/extension/service";
 
 message GetFieldsResponse {
@@ -11,7 +13,9 @@ message GetFieldsResponse {
 message CustomFieldType {
   string name = 1;
   StorageType type = 2;
-  Resource resrouce = 3;
+  Assets input_component = 3;
+  Assets setting_component = 4;
+  Assets show_component = 5;
 }
 
 enum StorageType {
@@ -19,12 +23,6 @@ enum StorageType {
   STORAGE_STRING = 1;
   STORAGE_NUMBER = 2;
   STORAGE_BLOB = 3;
-}
-
-message Resource {
-  int32 lastModified = 1;
-  CompressType compressed = 2;
-  string path = 3;  
 }
 
 enum CompressType {

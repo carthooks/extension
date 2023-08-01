@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+import "common.proto";
+import "assets.proto";
+
 package service;
 option go_package = "github.com/carthooks/extension/service";
 
@@ -8,5 +11,9 @@ message GetConnectorsResponse{
 }
 
 message Connector{
-    string name = 1;
+    string id = 1;
+    I18nString name = 2;
+    I18nString description = 3;
+    Assets icon = 4;
+    repeated string service_uuids = 5;
 }

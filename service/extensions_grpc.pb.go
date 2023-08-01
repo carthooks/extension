@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v4.23.4
-// source: Extension.proto
+// source: extensions.proto
 
 package service
 
@@ -27,7 +27,7 @@ type CarthooksExtensionClient interface {
 	GetI18NPack(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetI18NPackResponse, error)
 	GetServices(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetServicesResponse, error)
 	GetConnectors(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error)
-	GetResource(ctx context.Context, in *GetResourceRequest, opts ...grpc.CallOption) (*GetResourcesResponse, error)
+	GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error)
 }
 
 type carthooksExtensionClient struct {
@@ -83,9 +83,9 @@ func (c *carthooksExtensionClient) GetConnectors(ctx context.Context, in *Empty,
 	return out, nil
 }
 
-func (c *carthooksExtensionClient) GetResource(ctx context.Context, in *GetResourceRequest, opts ...grpc.CallOption) (*GetResourcesResponse, error) {
-	out := new(GetResourcesResponse)
-	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetResource", in, out, opts...)
+func (c *carthooksExtensionClient) GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error) {
+	out := new(GetAssetsResponse)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetAssets", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +101,7 @@ type CarthooksExtensionServer interface {
 	GetI18NPack(context.Context, *Empty) (*GetI18NPackResponse, error)
 	GetServices(context.Context, *Empty) (*GetServicesResponse, error)
 	GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error)
-	GetResource(context.Context, *GetResourceRequest) (*GetResourcesResponse, error)
+	GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error)
 	mustEmbedUnimplementedCarthooksExtensionServer()
 }
 
@@ -124,8 +124,8 @@ func (UnimplementedCarthooksExtensionServer) GetServices(context.Context, *Empty
 func (UnimplementedCarthooksExtensionServer) GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConnectors not implemented")
 }
-func (UnimplementedCarthooksExtensionServer) GetResource(context.Context, *GetResourceRequest) (*GetResourcesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetResource not implemented")
+func (UnimplementedCarthooksExtensionServer) GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAssets not implemented")
 }
 func (UnimplementedCarthooksExtensionServer) mustEmbedUnimplementedCarthooksExtensionServer() {}
 
@@ -230,20 +230,20 @@ func _CarthooksExtension_GetConnectors_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CarthooksExtension_GetResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetResourceRequest)
+func _CarthooksExtension_GetAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CarthooksExtensionServer).GetResource(ctx, in)
+		return srv.(CarthooksExtensionServer).GetAssets(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/service.CarthooksExtension/GetResource",
+		FullMethod: "/service.CarthooksExtension/GetAssets",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CarthooksExtensionServer).GetResource(ctx, req.(*GetResourceRequest))
+		return srv.(CarthooksExtensionServer).GetAssets(ctx, req.(*GetAssetsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -276,10 +276,10 @@ var CarthooksExtension_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CarthooksExtension_GetConnectors_Handler,
 		},
 		{
-			MethodName: "GetResource",
-			Handler:    _CarthooksExtension_GetResource_Handler,
+			MethodName: "GetAssets",
+			Handler:    _CarthooksExtension_GetAssets_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "Extension.proto",
+	Metadata: "extensions.proto",
 }
