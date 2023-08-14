@@ -22,12 +22,16 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CarthooksExtensionClient interface {
+	Info(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*InfoResponse, error)
 	GetCustomFieldTypes(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetFieldsResponse, error)
 	GetModels(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetModelsResponse, error)
 	GetI18NPack(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetI18NPackResponse, error)
 	GetServices(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetServicesResponse, error)
 	GetConnectors(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error)
 	GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error)
+	GetAuthMethods(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAuthMethodsResponse, error)
+	AuthValidate(ctx context.Context, in *AuthValidateRequest, opts ...grpc.CallOption) (*AuthValidateResponse, error)
+	OnHttpRequest(ctx context.Context, in *HttpRequest, opts ...grpc.CallOption) (*HttpResponse, error)
 }
 
 type carthooksExtensionClient struct {
@@ -36,6 +40,15 @@ type carthooksExtensionClient struct {
 
 func NewCarthooksExtensionClient(cc grpc.ClientConnInterface) CarthooksExtensionClient {
 	return &carthooksExtensionClient{cc}
+}
+
+func (c *carthooksExtensionClient) Info(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*InfoResponse, error) {
+	out := new(InfoResponse)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/Info", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *carthooksExtensionClient) GetCustomFieldTypes(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetFieldsResponse, error) {
@@ -92,16 +105,47 @@ func (c *carthooksExtensionClient) GetAssets(ctx context.Context, in *GetAssetsR
 	return out, nil
 }
 
+func (c *carthooksExtensionClient) GetAuthMethods(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAuthMethodsResponse, error) {
+	out := new(GetAuthMethodsResponse)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetAuthMethods", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *carthooksExtensionClient) AuthValidate(ctx context.Context, in *AuthValidateRequest, opts ...grpc.CallOption) (*AuthValidateResponse, error) {
+	out := new(AuthValidateResponse)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/AuthValidate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *carthooksExtensionClient) OnHttpRequest(ctx context.Context, in *HttpRequest, opts ...grpc.CallOption) (*HttpResponse, error) {
+	out := new(HttpResponse)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/OnHttpRequest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CarthooksExtensionServer is the server API for CarthooksExtension service.
 // All implementations must embed UnimplementedCarthooksExtensionServer
 // for forward compatibility
 type CarthooksExtensionServer interface {
+	Info(context.Context, *Empty) (*InfoResponse, error)
 	GetCustomFieldTypes(context.Context, *Empty) (*GetFieldsResponse, error)
 	GetModels(context.Context, *Empty) (*GetModelsResponse, error)
 	GetI18NPack(context.Context, *Empty) (*GetI18NPackResponse, error)
 	GetServices(context.Context, *Empty) (*GetServicesResponse, error)
 	GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error)
 	GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error)
+	GetAuthMethods(context.Context, *Empty) (*GetAuthMethodsResponse, error)
+	AuthValidate(context.Context, *AuthValidateRequest) (*AuthValidateResponse, error)
+	OnHttpRequest(context.Context, *HttpRequest) (*HttpResponse, error)
 	mustEmbedUnimplementedCarthooksExtensionServer()
 }
 
@@ -109,6 +153,9 @@ type CarthooksExtensionServer interface {
 type UnimplementedCarthooksExtensionServer struct {
 }
 
+func (UnimplementedCarthooksExtensionServer) Info(context.Context, *Empty) (*InfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Info not implemented")
+}
 func (UnimplementedCarthooksExtensionServer) GetCustomFieldTypes(context.Context, *Empty) (*GetFieldsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCustomFieldTypes not implemented")
 }
@@ -127,6 +174,15 @@ func (UnimplementedCarthooksExtensionServer) GetConnectors(context.Context, *Emp
 func (UnimplementedCarthooksExtensionServer) GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAssets not implemented")
 }
+func (UnimplementedCarthooksExtensionServer) GetAuthMethods(context.Context, *Empty) (*GetAuthMethodsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuthMethods not implemented")
+}
+func (UnimplementedCarthooksExtensionServer) AuthValidate(context.Context, *AuthValidateRequest) (*AuthValidateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AuthValidate not implemented")
+}
+func (UnimplementedCarthooksExtensionServer) OnHttpRequest(context.Context, *HttpRequest) (*HttpResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OnHttpRequest not implemented")
+}
 func (UnimplementedCarthooksExtensionServer) mustEmbedUnimplementedCarthooksExtensionServer() {}
 
 // UnsafeCarthooksExtensionServer may be embedded to opt out of forward compatibility for this service.
@@ -138,6 +194,24 @@ type UnsafeCarthooksExtensionServer interface {
 
 func RegisterCarthooksExtensionServer(s grpc.ServiceRegistrar, srv CarthooksExtensionServer) {
 	s.RegisterService(&CarthooksExtension_ServiceDesc, srv)
+}
+
+func _CarthooksExtension_Info_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CarthooksExtensionServer).Info(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.CarthooksExtension/Info",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CarthooksExtensionServer).Info(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _CarthooksExtension_GetCustomFieldTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -248,6 +322,60 @@ func _CarthooksExtension_GetAssets_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CarthooksExtension_GetAuthMethods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CarthooksExtensionServer).GetAuthMethods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.CarthooksExtension/GetAuthMethods",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CarthooksExtensionServer).GetAuthMethods(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CarthooksExtension_AuthValidate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthValidateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CarthooksExtensionServer).AuthValidate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.CarthooksExtension/AuthValidate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CarthooksExtensionServer).AuthValidate(ctx, req.(*AuthValidateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CarthooksExtension_OnHttpRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HttpRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CarthooksExtensionServer).OnHttpRequest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.CarthooksExtension/OnHttpRequest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CarthooksExtensionServer).OnHttpRequest(ctx, req.(*HttpRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CarthooksExtension_ServiceDesc is the grpc.ServiceDesc for CarthooksExtension service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -255,6 +383,10 @@ var CarthooksExtension_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "service.CarthooksExtension",
 	HandlerType: (*CarthooksExtensionServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Info",
+			Handler:    _CarthooksExtension_Info_Handler,
+		},
 		{
 			MethodName: "GetCustomFieldTypes",
 			Handler:    _CarthooksExtension_GetCustomFieldTypes_Handler,
@@ -278,6 +410,18 @@ var CarthooksExtension_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAssets",
 			Handler:    _CarthooksExtension_GetAssets_Handler,
+		},
+		{
+			MethodName: "GetAuthMethods",
+			Handler:    _CarthooksExtension_GetAuthMethods_Handler,
+		},
+		{
+			MethodName: "AuthValidate",
+			Handler:    _CarthooksExtension_AuthValidate_Handler,
+		},
+		{
+			MethodName: "OnHttpRequest",
+			Handler:    _CarthooksExtension_OnHttpRequest_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

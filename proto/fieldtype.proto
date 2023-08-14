@@ -2,8 +2,10 @@ syntax = "proto3";
 
 package service;
 import "assets.proto";
-
 option go_package = "github.com/carthooks/extension/service";
+option java_multiple_files = true;
+option java_package = "service.extension.carthooks.com";
+option java_outer_classname = "CarthooksExtension";
 
 message GetFieldsResponse {
   repeated CustomFieldType fields = 1;

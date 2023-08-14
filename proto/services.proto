@@ -1,18 +1,21 @@
 syntax = "proto3";
 
 package service;
-option go_package = "github.com/carthooks/extension/service";
-
 import "common.proto";
+option go_package = "github.com/carthooks/extension/service";
+option java_multiple_files = true;
+option java_package = "service.extension.carthooks.com";
+option java_outer_classname = "CarthooksExtension";
+
 
 message GetServicesResponse {
   repeated Service services = 1;
 }
 
 message Service {
-    string uuid = 1;
+    string UUID = 1;
     I18nString name = 2;
     I18nString description = 3;
-    string input_model_uuid = 4;
-    string output_model_uuid = 5;
+    string input_model_UUID = 4;
+    string output_model_UUID = 5;
 }

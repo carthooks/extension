@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package service;
 option go_package = "github.com/carthooks/extension/service";
+option java_multiple_files = true;
+option java_package = "service.extension.carthooks.com";
+option java_outer_classname = "CarthooksExtension";
+
 
 import "common.proto";
 
@@ -11,7 +15,7 @@ message GetModelsResponse{
 
 message Model {
     string name = 1;
-    string uuid = 2;
+    string UUID = 2;
     repeated Field fields = 3;
 }
 
@@ -29,7 +33,7 @@ message Field {
     string key = 10;
     uint32 number_decimal = 11;
     repeated string options = 12;
-    string subform_model_uuid = 13;
+    string subform_model_UUID = 13;
     int32 subform_records_limit_min = 14;
     int32 subform_records_limit_max = 15;
 }
