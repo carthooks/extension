@@ -9,13 +9,15 @@ import (
 	"path/filepath"
 
 	pb "github.com/carthooks/extension/service"
+	"github.com/gin-gonic/gin"
 
 	"google.golang.org/grpc"
 )
 
 type Server struct {
 	pb.CarthooksExtensionServer
-	publicDir string
+	publicDir     string
+	HttpGinEngine *gin.Engine
 }
 
 func (s Server) GetAssets(c context.Context, r *pb.GetAssetsRequest) (rsp *pb.GetAssetsResponse, err error) {
@@ -80,15 +82,23 @@ func (s *Server) FileAssets(f *os.File) (rsp *pb.GetAssetsResponse, err error) {
 	}, nil
 }
 
-func StartServer(addr, publicDir string, serv pb.CarthooksExtensionServer) error {
-	lis, err := net.Listen("tcp", addr)
+type Config struct {
+	Addr          string
+	PublicDir     string
+	Server        pb.CarthooksExtensionServer
+	HttpGinEngine *gin.Engine
+}
+
+func StartServer(config *Config) error {
+	lis, err := net.Listen("tcp", config.Addr)
 	if err != nil {
 		return err
 	}
 
 	s := Server{
-		CarthooksExtensionServer: serv,
-		publicDir:                publicDir,
+		CarthooksExtensionServer: config.Server,
+		publicDir:                config.PublicDir,
+		HttpGinEngine:            config.HttpGinEngine,
 	}
 
 	grpc_server := grpc.NewServer()

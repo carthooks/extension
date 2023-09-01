@@ -28,8 +28,10 @@ type CarthooksExtensionClient interface {
 	GetI18NPack(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetI18NPackResponse, error)
 	GetServices(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetServicesResponse, error)
 	GetConnectors(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetConnectorsResponse, error)
+	CreateConnection(ctx context.Context, in *CreateConnectionRequest, opts ...grpc.CallOption) (*CreateConnectionResponse, error)
 	GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error)
 	GetAuthMethods(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAuthMethodsResponse, error)
+	GetApps(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAppsResponse, error)
 	AuthValidate(ctx context.Context, in *AuthValidateRequest, opts ...grpc.CallOption) (*AuthValidateResponse, error)
 	OnHttpRequest(ctx context.Context, in *HttpRequest, opts ...grpc.CallOption) (*HttpResponse, error)
 }
@@ -96,6 +98,15 @@ func (c *carthooksExtensionClient) GetConnectors(ctx context.Context, in *Empty,
 	return out, nil
 }
 
+func (c *carthooksExtensionClient) CreateConnection(ctx context.Context, in *CreateConnectionRequest, opts ...grpc.CallOption) (*CreateConnectionResponse, error) {
+	out := new(CreateConnectionResponse)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/CreateConnection", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *carthooksExtensionClient) GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error) {
 	out := new(GetAssetsResponse)
 	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetAssets", in, out, opts...)
@@ -108,6 +119,15 @@ func (c *carthooksExtensionClient) GetAssets(ctx context.Context, in *GetAssetsR
 func (c *carthooksExtensionClient) GetAuthMethods(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAuthMethodsResponse, error) {
 	out := new(GetAuthMethodsResponse)
 	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetAuthMethods", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *carthooksExtensionClient) GetApps(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAppsResponse, error) {
+	out := new(GetAppsResponse)
+	err := c.cc.Invoke(ctx, "/service.CarthooksExtension/GetApps", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -142,8 +162,10 @@ type CarthooksExtensionServer interface {
 	GetI18NPack(context.Context, *Empty) (*GetI18NPackResponse, error)
 	GetServices(context.Context, *Empty) (*GetServicesResponse, error)
 	GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error)
+	CreateConnection(context.Context, *CreateConnectionRequest) (*CreateConnectionResponse, error)
 	GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error)
 	GetAuthMethods(context.Context, *Empty) (*GetAuthMethodsResponse, error)
+	GetApps(context.Context, *Empty) (*GetAppsResponse, error)
 	AuthValidate(context.Context, *AuthValidateRequest) (*AuthValidateResponse, error)
 	OnHttpRequest(context.Context, *HttpRequest) (*HttpResponse, error)
 	mustEmbedUnimplementedCarthooksExtensionServer()
@@ -171,11 +193,17 @@ func (UnimplementedCarthooksExtensionServer) GetServices(context.Context, *Empty
 func (UnimplementedCarthooksExtensionServer) GetConnectors(context.Context, *Empty) (*GetConnectorsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetConnectors not implemented")
 }
+func (UnimplementedCarthooksExtensionServer) CreateConnection(context.Context, *CreateConnectionRequest) (*CreateConnectionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateConnection not implemented")
+}
 func (UnimplementedCarthooksExtensionServer) GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAssets not implemented")
 }
 func (UnimplementedCarthooksExtensionServer) GetAuthMethods(context.Context, *Empty) (*GetAuthMethodsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuthMethods not implemented")
+}
+func (UnimplementedCarthooksExtensionServer) GetApps(context.Context, *Empty) (*GetAppsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetApps not implemented")
 }
 func (UnimplementedCarthooksExtensionServer) AuthValidate(context.Context, *AuthValidateRequest) (*AuthValidateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AuthValidate not implemented")
@@ -304,6 +332,24 @@ func _CarthooksExtension_GetConnectors_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CarthooksExtension_CreateConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateConnectionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CarthooksExtensionServer).CreateConnection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.CarthooksExtension/CreateConnection",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CarthooksExtensionServer).CreateConnection(ctx, req.(*CreateConnectionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CarthooksExtension_GetAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAssetsRequest)
 	if err := dec(in); err != nil {
@@ -336,6 +382,24 @@ func _CarthooksExtension_GetAuthMethods_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CarthooksExtensionServer).GetAuthMethods(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CarthooksExtension_GetApps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CarthooksExtensionServer).GetApps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.CarthooksExtension/GetApps",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CarthooksExtensionServer).GetApps(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -408,12 +472,20 @@ var CarthooksExtension_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CarthooksExtension_GetConnectors_Handler,
 		},
 		{
+			MethodName: "CreateConnection",
+			Handler:    _CarthooksExtension_CreateConnection_Handler,
+		},
+		{
 			MethodName: "GetAssets",
 			Handler:    _CarthooksExtension_GetAssets_Handler,
 		},
 		{
 			MethodName: "GetAuthMethods",
 			Handler:    _CarthooksExtension_GetAuthMethods_Handler,
+		},
+		{
+			MethodName: "GetApps",
+			Handler:    _CarthooksExtension_GetApps_Handler,
 		},
 		{
 			MethodName: "AuthValidate",
